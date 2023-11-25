@@ -4,28 +4,32 @@
     "ingredients": ["pasta", "eggs", "bacon", "parmesan cheese", "black pepper"],
     "instructions": "Cook pasta. In a separate pan, fry bacon. Mix cooked pasta with beaten eggs, bacon, and grated parmesan cheese. Sprinkle with black pepper.",
     "imageUrl": "assets/pasta-carbonara.jpg",
-    "prepTime": "20 minutes"
+    "prepTime": "20 minutes",
+    "category": "savory"
   },
   {
     "title": "Chocolate Chip Cookies",
     "ingredients": ["flour", "butter", "sugar", "chocolate chips", "eggs", "vanilla extract"],
     "instructions": "Cream together butter and sugar. Add egg and vanilla extract. Mix in flour and chocolate chips. Drop spoonfuls onto a baking sheet and bake until golden.",
     "imageUrl": "assets/cookies.jpg",
-    "prepTime": "15 minutes"
+    "prepTime": "15 minutes",
+    "category": "sweet"
   },
   {
     "title": "Chicken Caesar Salad",
     "ingredients": ["chicken Breast", "lettuce", "croutons", "parmesan cheese", "Caesar dressing"],
     "instructions": "Grill chicken breast and slice. Toss lettuce, croutons, and parmesan cheese. Add grilled chicken. Drizzle with Caesar dressing.",
     "imageUrl": "assets/chicken-caesar-salad.jpg",
-    "prepTime": "25 minutes"
+    "prepTime": "25 minutes",
+    "category": "savory"
   },
   {
     "title": "Chicken Alfredo Pasta",
     "ingredients": ["fettuccine pasta", "chicken breast", "heavy cream", "Parmesan cheese", "garlic", "butter"],
     "instructions": "Cook fettuccine pasta. In a pan, sauté garlic in butter, add diced chicken breast, and cook until browned. Pour in heavy cream and Parmesan cheese. Mix with cooked pasta.",
     "imageUrl": "assets/alfredo-pasta.jpg",
-    "prepTime": "25 minutes"
+    "prepTime": "25 minutes",
+    "category": "savory"
   },
   {
     "title": "Fudgy Chocolate Brownies",
@@ -42,13 +46,15 @@
     ],
     "instructions": "Preheat oven to 350°F (175°C). Grease and flour a baking pan.\n\nIn a microwave-safe bowl, melt the butter. Stir in sugar until well combined. Add eggs one at a time, beating well after each addition. Stir in vanilla extract.\n\nIn a separate bowl, sift together flour, cocoa powder, and salt. Gradually add the dry ingredients to the wet ingredients, mixing until just combined.\n\nIf desired, fold in chocolate chips and chopped nuts.\n\nPour the batter into the prepared baking pan and spread evenly.\n\nBake in the preheated oven for 25-30 minutes or until a toothpick inserted into the center comes out with a few moist crumbs.\n\nAllow the brownies to cool in the pan before cutting into squares.\n\nEnjoy your fudgy chocolate brownies!",
     "imageUrl": "assets/brownies.jpg",
-    "prepTime": "40 minutes"
+    "prepTime": "40 minutes",
+    "category": "sweet"
   },
   {
     "title": "Margarita Pizza",
-    "ingredients": ["pizza dough", "tomato sauce", "fresh mozzarella", "fresh basil", "olive oil", "salt"],
+    "ingredients": ["pizza dough", "tomato sauce", "fresh mozzarella cheese", "fresh basil", "olive oil", "salt"],
     "instructions": "Roll out pizza dough. Spread tomato sauce, add slices of fresh mozzarella, and top with fresh basil leaves. Drizzle with olive oil and sprinkle with salt. Bake until crust is golden.",
     "imageUrl": "assets/pizza-margherita.webp",
-    "prepTime": "15 minutes"
+    "prepTime": "15 minutes",
+    "category": "savory"
   }
 ]

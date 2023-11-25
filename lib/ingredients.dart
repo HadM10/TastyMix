@@ -13,7 +13,7 @@ class _IngredientsState extends State<Ingredients> {
   List<String> availableIngredients = [
     "Chicken",
     "Pasta",
-    "Tomatoes",
+    "Tomato",
     "Cheese",
     "Eggs",
     "Flour",
