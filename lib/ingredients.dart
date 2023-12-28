@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'recipes.dart';
+import 'package:http/http.dart' as http;
+import 'recipes.dart'; // Import your RecipeDisplayScreen or adjust the import as needed
 
 class Ingredients extends StatefulWidget {
   const Ingredients({Key? key}) : super(key: key);
@@ -10,17 +13,29 @@ class Ingredients extends StatefulWidget {
 
 class _IngredientsState extends State<Ingredients> {
   List<String> selectedIngredients = [];
-  List<String> availableIngredients = [
-    "Chicken",
-    "Pasta",
-    "Tomato",
-    "Cheese",
-    "Eggs",
-    "Flour",
-    "Cocoa",
+  List<String> availableIngredients = []; // Updated to fetch ingredients from the backend
 
-    // Add more ingredients as needed
-  ];
+  @override
+  void initState() {
+    super.initState();
+    fetchAvailableIngredients(); // Fetch ingredients when the widget initializes
+  }
+
+  Future<void> fetchAvailableIngredients() async {
+    try {
+      final response = await http.get(Uri.parse('https://tastymix.000webhostapp.com/get_available_ingredients.php'));
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonResponse = json.decode(response.body);
+        setState(() {
+          availableIngredients = jsonResponse.cast<String>();
+        });
+      } else {
+        throw Exception('Failed to load ingredients');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,27 +69,22 @@ class _IngredientsState extends State<Ingredients> {
             ? null // Disable the button if no ingredients are selected
             : () {
           if (selectedIngredients.isEmpty) {
-            // Show a snack bar message if no ingredients are selected
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Please select at least one ingredient.'),
               ),
             );
           } else {
-            // Navigate to the RecipeDisplayScreen with selected ingredients
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    RecipeDisplayScreen(selectedIngredients: selectedIngredients),
+                builder: (context) => RecipeDisplayScreen(selectedIngredients: selectedIngredients),
               ),
             );
           }
         },
         child: const Text('Generate Recipe'),
       ),
-
-
     );
   }
 }

@@ -1,22 +1,44 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-
+import 'package:http/http.dart' as http;
 
 class RecipeDisplayScreen extends StatelessWidget {
   final List<String> selectedIngredients;
 
-  const RecipeDisplayScreen({super.key, required this.selectedIngredients});
+  const RecipeDisplayScreen({Key? key, required this.selectedIngredients}) : super(key: key);
 
   Future<List<Map<String, dynamic>>> loadRecipes(BuildContext context) async {
+    final Uri url = Uri.parse('https://tastymix.000webhostapp.com/get_recipes.php');
 
-      final String data = await rootBundle.loadString('assets/recipes.json');
-      final List<Map<String, dynamic>> recipes = List<Map<String, dynamic>>.from(json.decode(data));
-      return recipes;
+    try {
+      final response = await http.get(url);
 
+      if (response.statusCode == 200) {
+        final List<Map<String, dynamic>> allRecipes = List<Map<String, dynamic>>.from(json.decode(response.body));
+
+        // Filter recipes based on selected ingredients
+        final List<Map<String, dynamic>> filteredRecipes = allRecipes.where((recipe) {
+          final List<String> recipeIngredients = (recipe['ingredients'] as String)
+              .split(',')
+              .map((ingredient) => ingredient.replaceAll('"', '').trim())
+              .toList();
+          return selectedIngredients.every((ingredient) =>
+              recipeIngredients.any((recipeIngredient) =>
+                  recipeIngredient.trim().toLowerCase().contains(ingredient.trim().toLowerCase())));
+        }).toList();
+
+        return filteredRecipes;
+      } else {
+        throw Exception('Failed to load recipes');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Failed to load recipes');
+    }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +50,9 @@ class RecipeDisplayScreen extends StatelessWidget {
             return const Center(child: Text('Error loading recipes'));
           } else {
             final List<Map<String, dynamic>> recipes = snapshot.data ?? [];
-
-            // Filter recipes based on selected ingredients
-            final List<Map<String, dynamic>> filteredRecipes = recipes.where((recipe) {
-              final List<String> recipeIngredients = List<String>.from(recipe['ingredients']);
-              return selectedIngredients.every((ingredient) =>
-                  recipeIngredients.any((recipeIngredient) =>
-                      recipeIngredient.trim().toLowerCase().contains(ingredient.trim().toLowerCase())));
-            }).toList();
-
             final Random random = Random();
             final Map<String, dynamic> generatedRecipe =
-            filteredRecipes.isNotEmpty ? filteredRecipes[random.nextInt(filteredRecipes.length)] : {};
+            recipes.isNotEmpty ? recipes[random.nextInt(recipes.length)] : {};
 
             return Scaffold(
               appBar: AppBar(
@@ -52,7 +65,6 @@ class RecipeDisplayScreen extends StatelessWidget {
                   children: [
                     // Display image
                     Image.asset(generatedRecipe['imageUrl'] ?? 'assets/sorry.gif'),
-
                     const SizedBox(height: 20),
                     // Display title
                     Text(
@@ -62,7 +74,7 @@ class RecipeDisplayScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     // Display ingredients
                     Text(
-                      'Ingredients: ${generatedRecipe['ingredients']?.join(', ') ?? 'No Ingredients'}',
+                      'Ingredients: ${(generatedRecipe['ingredients'] as String).replaceAll(', ', ', ')}' ?? 'No Ingredients',
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 20),

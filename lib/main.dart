@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'ingredients.dart';
 import 'categories.dart';
+import 'search.dart'; // Import the SearchPage file
 
 void main() {
   runApp(const MyApp());
@@ -43,6 +44,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _navigateToSearchPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +71,14 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.red,
         onTap: _onItemTapped,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _navigateToSearchPage(context);
+        },
+        tooltip: 'Search',
+        child: Icon(Icons.search),
       ),
     );
   }
